@@ -1,6 +1,8 @@
 package com.lalthanpuiachhangte.mapforfish;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +11,15 @@ import android.widget.ListView;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.lalthanpuiachhangte.mapforfish.adapter.ListViewAdapter;
 import com.lalthanpuiachhangte.mapforfish.entity.LakeEntity;
 
 import java.util.List;
 
 public class ListLakeActivity extends AppCompatActivity {
 
-    ListView listView;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     List<LakeEntity> myLakes;
 
     @Override
@@ -24,7 +27,7 @@ public class ListLakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_lake);
 
-        listView = findViewById(R.id.listLake);
+        recyclerView = findViewById(R.id.my_recycler_view);
 
         Ion.with(this)
                 .load("http://fisheries.ap-south-1.elasticbeanstalk.com/api/getAll")
@@ -35,8 +38,18 @@ public class ListLakeActivity extends AppCompatActivity {
                         Log.e("TAG","tweets: "+lakes.get(0).getName());
                         myLakes = lakes;
 
-                        ListViewAdapter lakeAdapter = new ListViewAdapter(myLakes);
-                        listView.setAdapter(lakeAdapter);
+//                        // use this setting to improve performance if you know that changes
+//                        // in content do not change the layout size of the RecyclerView
+//                        recyclerView.setHasFixedSize(true);
+//
+//                        // use a linear layout manager
+//                        layoutManager = new LinearLayoutManager(getApplicationContext());
+//                        recyclerView.setLayoutManager(layoutManager);
+//
+//                        // specify an adapter (see also next example)
+//                        mAdapter = new ListViewAdapter (lakes);
+//                        recyclerView.setAdapter(mAdapter);
+
                     }
                 });
 

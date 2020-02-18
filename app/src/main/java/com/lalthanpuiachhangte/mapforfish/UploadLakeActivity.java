@@ -144,6 +144,7 @@ public class UploadLakeActivity extends AppCompatActivity {
 
                                 Toasty.success(getApplicationContext(),"Upload Sucess!!",Toasty.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                                finish();
 
                             }
                         });
