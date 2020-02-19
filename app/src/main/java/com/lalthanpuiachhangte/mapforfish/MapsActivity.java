@@ -23,7 +23,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.lalthanpuiachhangte.mapforfish.adapter.ListViewAdapter;
 import com.lalthanpuiachhangte.mapforfish.entity.LakeEntity;
 import com.lalthanpuiachhangte.mapforfish.fragments.ItemListDialogFragment;
 
@@ -79,10 +78,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             LatLng mCoordinate = new LatLng(lake.getLat(), lake.getLng());
 
+                            float zoomLevel = 9.0f; //This goes up to 21
 
                             mMap.addMarker(new MarkerOptions().position(mCoordinate).title(lake.getName()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(mCoordinate));
-
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCoordinate,zoomLevel));
 
                         }
                     }
@@ -93,10 +92,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
 
-                //    Log.e("TAG","Marker: "+ marker.getId()+" " +marker.getSnippet()+" " +marker.getTitle());
-                ItemListDialogFragment.newInstance(mLakes.get(Integer.parseInt(marker.getId().substring(1)))).show(getSupportFragmentManager(), "dialog");
-                //Toast.makeText(getApplicationContext(),"tot!",Toast.LENGTH_SHORT).show();
-                return false;
+        ItemListDialogFragment.newInstance(mLakes.get(Integer.parseInt(marker.getId().substring(1)))).show(getSupportFragmentManager(), "dialog");
+        //Toast.makeText(getApplicationContext(),"tot!",Toast.LENGTH_SHORT).show();
+        return false;
             }
         });
     }

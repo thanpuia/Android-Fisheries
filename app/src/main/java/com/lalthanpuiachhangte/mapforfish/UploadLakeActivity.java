@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -39,6 +42,7 @@ public class UploadLakeActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     Button selectPhotoButton, submitButton;
     LinearLayout progressBarLayout;
+    private ImageView selectPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class UploadLakeActivity extends AppCompatActivity {
         selectPhotoButton = findViewById(R.id.selectPhotoButton);
         submitButton = findViewById(R.id.submitButton);
         progressBarLayout = findViewById(R.id.progressBarLayout);
+        selectPhoto = findViewById(R.id.selectPhoto);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.districts,android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,7 +62,7 @@ public class UploadLakeActivity extends AppCompatActivity {
     }
 
 
-    public void takePhoto(View view) {
+    public void selectPhoto(View view) {
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -71,6 +76,7 @@ public class UploadLakeActivity extends AppCompatActivity {
 
                 case 1:
                     if (resultCode == Activity.RESULT_OK) {
+
                         //data gives you the image uri. Try to convert that to bitmap
                         Uri file_uri = data.getData(); // parse to Uri if your videoURI is string
                         real_path = getRealPathFromURI(getApplicationContext(), file_uri);                        //Log.e(TAG, "data: ") ;
@@ -91,6 +97,11 @@ public class UploadLakeActivity extends AppCompatActivity {
 
                             }
                         }
+                        //Display the photo start
+                        Bitmap bitmap = BitmapFactory.decodeFile(real_path);
+                        selectPhoto.setImageBitmap(bitmap);
+                        //End
+
                         break;
                     } else if (resultCode == Activity.RESULT_CANCELED) {
                         Log.e(TAG, "Selecting picture cancelled");
@@ -105,13 +116,17 @@ public class UploadLakeActivity extends AppCompatActivity {
 
     public void submitClick(View view) {
 
-        final EditText editText;
-        editText =findViewById(R.id.lake_name);
+        final EditText lakeName,lakeAddress,lakeDescription;
+        lakeName =findViewById(R.id.lake_name);
+        lakeAddress =findViewById(R.id.lake_address);
+        lakeDescription = findViewById(R.id.lake_description);
+
         if(lat==0.0 ||lng==0.0){
             Toast.makeText(this,"PICTURE HAS NO COORDINATES!",Toast.LENGTH_LONG).show ();
 
         }else{
             try{
+
                 String sp = district.getSelectedItem().toString();
                 Ion.with(getApplicationContext())
                         .load("http://fisheries.ap-south-1.elasticbeanstalk.com/api/save")
@@ -121,13 +136,16 @@ public class UploadLakeActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.VISIBLE);
                                 progressBarLayout.setVisibility(View.VISIBLE);
 
-                                editText.setVisibility(View.INVISIBLE);
+                                lakeName.setVisibility(View.INVISIBLE);
                                 district.setVisibility(View.INVISIBLE);
                                 selectPhotoButton.setVisibility(View.INVISIBLE);
                                 submitButton.setVisibility(View.INVISIBLE);
                             }
                         })
-                        .setMultipartParameter("name", editText.getText().toString())
+                        .setMultipartParameter("name", lakeName.getText().toString())
+                        .setMultipartParameter("description", lakeDescription.getText().toString())
+                        .setMultipartParameter("address", lakeAddress.getText().toString())
+
                         .setMultipartParameter("lat", String.valueOf(lat))
                         .setMultipartParameter("lng", String.valueOf(lng))
                         .setMultipartParameter("district", sp)

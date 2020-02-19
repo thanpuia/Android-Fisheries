@@ -2,20 +2,25 @@ package com.lalthanpuiachhangte.mapforfish.entity;
 
 public class LakeEntity {
 
-    String name;
-    Double lat;
-    Double lng;
-    String district;
-    String image;
+    private String name;
+    private Double lat;
+    private Double lng;
+    private String district;
+    private String description;
+    private String address;
+    private String image;
+
 
     public LakeEntity() {
     }
 
-    public LakeEntity(String name, Double lat, Double lng, String district, String image) {
+    public LakeEntity(String name, Double lat, Double lng, String district, String description, String address, String image) {
         this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.district = district;
+        this.description = description;
+        this.address = address;
         this.image = image;
     }
 
@@ -49,6 +54,22 @@ public class LakeEntity {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getImage() {

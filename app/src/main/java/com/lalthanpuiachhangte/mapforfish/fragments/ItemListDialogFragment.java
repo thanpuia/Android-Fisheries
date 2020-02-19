@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * <p>A fragment that shows a list of items as a modal bottom sheet.</p>
  * <p>You can show this modal bottom sheet from your activity like this:</p>
@@ -84,26 +86,27 @@ public class ItemListDialogFragment extends BottomSheetDialogFragment {
 
     private class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView text;
-        final TextView name;
+        final TextView name, description, address;
         final ImageView image;
 
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             // TODO: Customize the item layout
             super(inflater.inflate(R.layout.fragment_item_list_dialog_item, parent, false));
-            text = (TextView) itemView.findViewById(R.id.text);
-            name = itemView.findViewById(R.id.text);
-            image = itemView.findViewById(R.id.lake_image);
+            name = itemView.findViewById(R.id.bottom_lake_name);
+            description = itemView.findViewById(R.id.bottom_lake_description);
+            address = itemView.findViewById(R.id.bottom_lake_address);
 
+            image = itemView.findViewById(R.id.bottom_lake_image);
 
-            text.setOnClickListener(new View.OnClickListener() {
+            image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mListener != null) {
                         mListener.onItemClicked(getAdapterPosition());
                         dismiss();
                     }
+                    Toasty.info(getContext(),"IMG Click!",Toasty.LENGTH_SHORT).show();
                 }
             });
         }
@@ -124,10 +127,13 @@ public class ItemListDialogFragment extends BottomSheetDialogFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.text.setText(mLake.getName());
+            holder.name.setText(mLake.getName());
+            holder.description.setText(mLake.getDescription());
+            holder.address.setText(mLake.getAddress());
+
             Picasso.get()
                     .load("http://fisheries.ap-south-1.elasticbeanstalk.com/public/image/"+mLake.getImage())
-                    .resize(200, 200)
+                    .resize(500, 500)
                     .centerCrop()
                     .into(holder.image);
 

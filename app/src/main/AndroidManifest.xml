@@ -20,7 +20,8 @@
         android:roundIcon="@drawable/fish"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListLakeActivity"></activity>
+
+        <activity android:name=".ListLakeActivity" />
         <activity android:name=".UploadLakeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
