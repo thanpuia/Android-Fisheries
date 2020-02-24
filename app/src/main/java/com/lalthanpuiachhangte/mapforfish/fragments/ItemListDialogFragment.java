@@ -81,6 +81,10 @@ public class ItemListDialogFragment extends BottomSheetDialogFragment {
     }
 
     public interface Listener {
+        void onSearchConfirmed(CharSequence text);
+
+        void onButtonClicked(int buttonCode);
+
         void onItemClicked(int position);
     }
 

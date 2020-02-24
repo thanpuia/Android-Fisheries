@@ -80,8 +80,8 @@ public class UploadLakeActivity extends AppCompatActivity {
                         //data gives you the image uri. Try to convert that to bitmap
                         Uri file_uri = data.getData(); // parse to Uri if your videoURI is string
                         real_path = getRealPathFromURI(getApplicationContext(), file_uri);                        //Log.e(TAG, "data: ") ;
-                         //path = getRealPathFromURI(data.getData());
-                         Log.e(TAG, "Path: "+real_path) ;
+                        //path = getRealPathFromURI(data.getData());
+                        Log.e(TAG, "Path: "+real_path) ;
                         ExifInterface exif = new ExifInterface(String.valueOf(real_path));
                         float[] latLong = new float[2];
                         boolean hasLatLong = exif.getLatLong(latLong);

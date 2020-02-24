@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="4dp"
     tools:context=".UploadLakeActivity">
 
 
@@ -30,23 +31,58 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/lake_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
-            android:id="@+id/lake_name"/>
+            android:hint="Lake Name"
+            android:maxLines="1"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="Lake Name"/>
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="address"
-            android:id="@+id/lake_address"/>
+<!--            app:met_floatingLabelTextColor="@color/offwhitedark"-->
+<!--            app:met_textColor="@color/offwhitedark"-->
+<!--            app:met_textColorHint="@color/offwhite2" />-->
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/lake_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="description"
-            android:id="@+id/lake_description"/>
+            android:hint="Lake Description"
+            android:maxLines="1"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="Lake Description"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/lake_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lake Address"
+            android:maxLines="1"
+            app:met_floatingLabel="normal"
+            app:met_floatingLabelText="Lake Address"/>
+<!--  -->
+<!--        <EditText-->
+<!--            style="@style/Widget.AppCompat.EditText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Name"-->
+<!--            android:id="@+id/lake_name"/>-->
+
+
+<!--      -->
+<!--        <EditText-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="address"-->
+<!--            android:id="@+id/lake_address"/>-->
+
+
+<!--        <EditText-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="description"-->
+<!--            android:id="@+id/lake_description"/>-->
 
 
         <TextView
@@ -59,20 +95,40 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner_districrt"/>
 
-        <Button
-            android:id="@+id/selectPhotoButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Selek poto"
-            android:onClick="selectPhoto"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Select your lake picture"/>
+            <Button
+                android:id="@+id/selectPhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="90dp"
+                android:layout_height="40dp"
+                android:textAllCaps="false"
+                android:text="Browse"
+                android:onClick="selectPhoto"/>
+
+
+        </LinearLayout>
 
 
         <Button
             android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:text="Submit"
+            android:background="#6A4056"
+            android:textColor="#fff"
+
             android:onClick="submitClick"/>
+
+
+
 
         <ImageView
             android:layout_width="200dp"
