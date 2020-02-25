@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="4dp"
+    android:paddingTop="20dp"
+    android:background="@drawable/map_blur_10"
+    android:orientation="vertical"
     tools:context=".UploadLakeActivity">
 
 
@@ -29,71 +31,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#fff"
+        android:layout_margin="50dp"
+        android:paddingTop="12dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
         android:orientation="vertical">
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/lake_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Lake Name"
-            android:maxLines="1"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="Lake Name"/>
+            app:met_floatingLabelText="Lake Name"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelAlwaysShown="true"
+            android:drawableLeft="@drawable/ic_user_icon"/>
 
-<!--            app:met_floatingLabelTextColor="@color/offwhitedark"-->
-<!--            app:met_textColor="@color/offwhitedark"-->
-<!--            app:met_textColorHint="@color/offwhite2" />-->
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/lake_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Lake Description"
-            android:maxLines="1"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="Lake Description"/>
+            app:met_floatingLabelText="Lake Description"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelAlwaysShown="true"
+            android:drawableLeft="@drawable/ic_description"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/lake_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Lake Address"
-            android:maxLines="1"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="Lake Address"/>
-<!--  -->
-<!--        <EditText-->
-<!--            style="@style/Widget.AppCompat.EditText"-->
+            android:id="@+id/lake_address"
+            app:met_floatingLabelText="Lake Address"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelAlwaysShown="true"
+            android:drawableLeft="@drawable/ic_password_icon"/>
+
+<!--        <Spinner-->
+
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Name"-->
-<!--            android:id="@+id/lake_name"/>-->
-
-
-<!--      -->
-<!--        <EditText-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="address"-->
-<!--            android:id="@+id/lake_address"/>-->
-
-
-<!--        <EditText-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="description"-->
-<!--            android:id="@+id/lake_description"/>-->
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="District"/>
-        <Spinner
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_districrt"/>
+<!--            android:id="@+id/spinner_districrt"/>-->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -107,7 +84,7 @@
             <Button
                 android:id="@+id/selectPhotoButton"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="90dp"
+                android:layout_marginLeft="20dp"
                 android:layout_height="40dp"
                 android:textAllCaps="false"
                 android:text="Browse"
@@ -118,13 +95,13 @@
 
 
         <Button
+            android:layout_marginTop="30dp"
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Submit"
-            android:background="#6A4056"
+            android:background="@color/colorPrimary"
             android:textColor="#fff"
-
             android:onClick="submitClick"/>
 
 

@@ -49,7 +49,7 @@ public class UploadLakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_lake);
 
-        district = findViewById(R.id.spinner_districrt);
+        //district = findViewById(R.id.spinner_districrt);
         progressBar = findViewById(R.id.simpleProgressBar);
         selectPhotoButton = findViewById(R.id.selectPhotoButton);
         submitButton = findViewById(R.id.submitButton);
@@ -58,7 +58,7 @@ public class UploadLakeActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.districts,android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        district.setAdapter(adapter);
+       // district.setAdapter(adapter);
     }
 
 
@@ -127,7 +127,7 @@ public class UploadLakeActivity extends AppCompatActivity {
         }else{
             try{
 
-                String sp = district.getSelectedItem().toString();
+                //String sp = district.getSelectedItem().toString();
                 Ion.with(getApplicationContext())
                         .load("http://fisheries.ap-south-1.elasticbeanstalk.com/api/save")
                         .uploadProgressHandler(new ProgressCallback() {
@@ -137,7 +137,7 @@ public class UploadLakeActivity extends AppCompatActivity {
                                 progressBarLayout.setVisibility(View.VISIBLE);
 
                                 lakeName.setVisibility(View.INVISIBLE);
-                                district.setVisibility(View.INVISIBLE);
+                              //  district.setVisibility(View.INVISIBLE);
                                 selectPhotoButton.setVisibility(View.INVISIBLE);
                                 submitButton.setVisibility(View.INVISIBLE);
                             }
@@ -148,7 +148,7 @@ public class UploadLakeActivity extends AppCompatActivity {
 
                         .setMultipartParameter("lat", String.valueOf(lat))
                         .setMultipartParameter("lng", String.valueOf(lng))
-                        .setMultipartParameter("district", sp)
+                      //  .setMultipartParameter("district", sp)
 //                .setMultipartFile("image", "application/image", new File("sdcard/DCIM/Camera/IMG_20200217_123440.jpg"))//IMAGE TESTINGINGINIGNIGNIGNIGIGN
                         .setMultipartFile("image", "application/image", new File("sdcard"+real_path.substring(19)))//IMAGE path hi storage/something in a awm vang in ka siam chop, sdcard angkhian
 

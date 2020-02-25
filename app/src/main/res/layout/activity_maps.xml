@@ -11,15 +11,19 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="4">
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             />
         <com.mancj.materialsearchbar.MaterialSearchBar
-            android:layout_margin="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginLeft="13dp"
+
             style="@style/MaterialSearchBarLight"
             app:mt_speechMode="false"
             app:mt_hint="Custom hint"
@@ -47,16 +51,19 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="65dp"
         android:gravity="bottom"
         android:orientation="horizontal"
+        android:layout_weight="1"
         android:background="#E7E7E7">
 
 
         <Button
+            android:id="@+id/uploadLakeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  testing"
+            android:text="Upload Lake"
+            android:visibility="invisible"
             android:textSize="9dp"
             android:drawableTop="@drawable/ic_local_phone_black_24dp"
             android:onClick="uploadLake"
@@ -64,18 +71,18 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  testing"
+            android:text="Registration"
             android:textSize="9dp"
             android:drawableTop="@drawable/ic_local_phone_black_24dp"
-            android:onClick="uploadLake"
+            android:onClick="registrationClick"
             android:layout_weight="1"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="testing"
+            android:text="login"
             android:textSize="9dp"
             android:drawableTop="@drawable/ic_local_phone_black_24dp"
-            android:onClick="s"
+            android:onClick="loginButtonClick"
             android:layout_weight="1"/>
 
 

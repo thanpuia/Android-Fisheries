@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.internal.Objects;
@@ -39,6 +40,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.lalthanpuiachhangte.mapforfish.entity.LakeEntity;
 import com.lalthanpuiachhangte.mapforfish.fragments.ItemListDialogFragment;
+import com.lalthanpuiachhangte.mapforfish.registration.LoginActivity;
+import com.lalthanpuiachhangte.mapforfish.registration.RegistrationActivity;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.List;
@@ -54,13 +57,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationListener locationListener;
     protected Context context;
 
+    public static Button uploadLakeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
         materialSearchBar = findViewById(R.id.searchBar);
-
+        uploadLakeButton = findViewById(R.id.uploadLakeButton);
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
@@ -131,9 +136,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }).check();
     }
 
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -155,15 +157,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                             mMap.addMarker(new MarkerOptions().position(mCoordinate).title(lake.getName()));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mCoordinate,zoomLevel));
-
-
-
                         }
                     }
                 });
 
-        try{
-            // Add a marker in Sydney and move the camera
+            // Add a marker and move the camera
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -172,9 +170,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return false;
                 }
             });
-        }catch (Exception e){
-            Log.e("TAG","MARKER EXCEPTION"+e);
-        }
     }
 
     @Override
@@ -218,6 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for Activity#requestPermissions for more details.
             return;
         }
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, MapsActivity.this);
 
         Location location= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -227,13 +223,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this,"lat:"+lat+"  lng:"+lng ,Toast.LENGTH_LONG).show();
         LatLng currentLocation = new LatLng(lat,lng);
 
+        LakeEntity myCurrentLocation = new LakeEntity("You are here",lat,lng,"district","desp","address","img");
+        mLakes.add(myCurrentLocation);//    ADDING THIS NEW LIST WILL PREVENT THE ERROR BECAUSE WHEN WE CLICK THE CURRENT LOCATION IT ACCESS THE MLAKES LIST IN WHICH THE IS NO LIST FOR THE "YOU ARE HERE" PREVILUSLY
+
         Marker marker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here!"));
 
         //mMap.addMarker(new MarkerOptions().position(currentLocation).title("You are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15f));
         marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.current_location_update));
-
-
     }
 
     @Override
@@ -254,5 +251,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    public void registrationClick(View view) {
+        startActivity(new Intent(MapsActivity.this, RegistrationActivity.class));
+        finish();
+    }
+
+    public void loginButtonClick(View view) {
+
+        startActivity(new Intent(MapsActivity.this, LoginActivity.class));
+        finish();
     }
 }

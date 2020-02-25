@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+
+    android:background="@drawable/map_blur_dark"
+    tools:context=".registration.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="40dp"
+        android:background="#fff">
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/fish_fake_logo"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="12dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:orientation="vertical">
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginEmail"
+                app:met_floatingLabelText="Email"
+                app:met_floatingLabel="highlight"
+                android:inputType="textEmailAddress"
+                android:drawableLeft="@drawable/ic_email_icon"
+                android:drawablePadding="6dp"
+                app:met_floatingLabelAlwaysShown="true"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginPassword"
+                android:inputType="textVisiblePassword"
+                app:met_floatingLabelText="Password"
+                app:met_floatingLabel="highlight"
+                android:drawableLeft="@drawable/ic_password_icon"
+                android:drawablePadding="6dp"
+                app:met_floatingLabelAlwaysShown="true"/>
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Login"
+                android:textColor="#FFF"
+                android:onClick="mLoginButtonClick"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:layout_gravity="center"
+                android:text="Not yet register! Register Now"
+                android:onClick="notYetRegisterClick"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

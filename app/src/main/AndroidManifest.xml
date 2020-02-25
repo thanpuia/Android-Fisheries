@@ -20,7 +20,8 @@
         android:roundIcon="@drawable/fish"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".registration.LoginActivity"></activity>
+        <activity android:name=".registration.RegistrationActivity" />
         <activity android:name=".ListLakeActivity" />
         <activity android:name=".UploadLakeActivity" />
         <!--
