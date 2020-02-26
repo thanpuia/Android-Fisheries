@@ -73,4 +73,11 @@ public class RegistrationActivity extends AppCompatActivity {
     public void loginInTextClick(View view) {
         startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MapsActivity.class));
+        finish();
+
+    }
 }

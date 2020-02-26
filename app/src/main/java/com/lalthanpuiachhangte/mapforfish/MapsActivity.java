@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.BoringLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -56,8 +59,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected Context context;
+    private String login="dd";
 
-    public static Button uploadLakeButton;
+    public  Button uploadLakeButton, registrationButton, loginButton;
+    public FloatingActionButton logoutButton;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         materialSearchBar = findViewById(R.id.searchBar);
         uploadLakeButton = findViewById(R.id.uploadLakeButton);
+        registrationButton = findViewById(R.id.registionButton);
+        loginButton = findViewById(R.id.loginButton);
+        logoutButton = findViewById(R.id.logoutButton);
+
+        sharedPreferences = this.getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
+
+        //CHECK THE LOGIN STATUS
+        String login_status = sharedPreferences.getString("login_status","");
+        if("login".equals(login_status)){
+            //ALREADY LOG IN
+            uploadLakeButton.setVisibility(View.VISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
+            registrationButton.setVisibility(View.INVISIBLE);
+            logoutButton.setVisibility(View.VISIBLE);
+
+
+        }else{
+            //ALREADY LOG OUT
+            uploadLakeButton.setVisibility(View.INVISIBLE);
+            loginButton.setVisibility(View.VISIBLE);
+            registrationButton.setVisibility(View.VISIBLE);
+            logoutButton.setVisibility(View.INVISIBLE);
+        }
+
+
+        String sessionId = getIntent().getStringExtra("status");
+        if("good".equals(sessionId)){
+            //LOGIN IS SUCCESS
+            uploadLakeButton.setVisibility(View.VISIBLE);
+
+        }
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
@@ -263,4 +300,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(new Intent(MapsActivity.this, LoginActivity.class));
         finish();
     }
+
+    public void logOutButtonClick(View view) {
+        sharedPreferences.edit().putString("login_status","logout").apply();
+        uploadLakeButton.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        registrationButton.setVisibility(View.VISIBLE);
+        logoutButton.setVisibility(View.INVISIBLE);
+
+        startActivity(new Intent(MapsActivity.this,MapsActivity.class));
+        finish();
+    }
+
+
 }

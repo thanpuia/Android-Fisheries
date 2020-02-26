@@ -32,9 +32,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mt_roundedSearchBarEnabled="true"
-
             android:id="@+id/searchBar" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/logoutButton"
+            android:layout_width="fill_parent"
+            android:layout_gravity="left|bottom"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_logout"
+            android:backgroundTint="#F0EEEE"
+            app:rippleColor="#039BE5"
+            android:layout_margin="15dp"
+            android:onClick="logOutButtonClick"
+            android:visibility="gone"
+            />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="fill_parent"
             android:layout_gravity="right|bottom"
@@ -69,6 +80,7 @@
             android:onClick="uploadLake"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/registionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Registration"
@@ -77,6 +89,7 @@
             android:onClick="registrationClick"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="login"
