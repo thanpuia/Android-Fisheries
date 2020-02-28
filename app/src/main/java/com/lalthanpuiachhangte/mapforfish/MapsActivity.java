@@ -1,9 +1,12 @@
 package com.lalthanpuiachhangte.mapforfish;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,8 +18,11 @@ import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.BoringLayout;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -53,6 +59,8 @@ import es.dmoral.toasty.Toasty;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,ItemListDialogFragment.Listener,LocationListener {
 
+    private String mURL = String.valueOf(R.string.URL_PATH)+"api/getAll";
+
     private GoogleMap mMap;
     private static List<LakeEntity> mLakes;
     private MaterialSearchBar materialSearchBar;
@@ -65,6 +73,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public FloatingActionButton logoutButton;
     SharedPreferences sharedPreferences;
 
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +87,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         loginButton = findViewById(R.id.loginButton);
         logoutButton = findViewById(R.id.logoutButton);
 
+        drawerLayout = findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        drawerLayout.openDrawer(Gravity.LEFT);
         sharedPreferences = this.getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
 
         //CHECK THE LOGIN STATUS
@@ -86,8 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             loginButton.setVisibility(View.INVISIBLE);
             registrationButton.setVisibility(View.INVISIBLE);
             logoutButton.setVisibility(View.VISIBLE);
-
-
         }else{
             //ALREADY LOG OUT
             uploadLakeButton.setVisibility(View.INVISIBLE);
@@ -171,6 +187,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
             }
         }).check();
+
+
+        Ion.with(this)
+                .load(mURL)
+                .as(new TypeToken<List<LakeEntity>>(){})
+                .setCallback(new FutureCallback<List<LakeEntity>>() {
+                    @Override
+                    public void onCompleted(Exception e, List<LakeEntity> result) {
+
+                        Log.e("TAG", "AALL liST::"+ result.size());
+                    }
+                });
     }
 
     @Override
@@ -292,7 +320,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void registrationClick(View view) {
         startActivity(new Intent(MapsActivity.this, RegistrationActivity.class));
-        finish();
     }
 
     public void loginButtonClick(View view) {
@@ -311,6 +338,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(new Intent(MapsActivity.this,MapsActivity.class));
         finish();
     }
+    boolean doubleBackToExitPressedOnce = false;
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
 }

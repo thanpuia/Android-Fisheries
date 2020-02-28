@@ -1,4 +1,5 @@
 <resources>
+    <string name="URL_PATH">http://fisheries.ap-south-1.elasticbeanstalk.com/</string>
     <string name="app_name">Map for fish</string>
     <string name="title_activity_maps">Map</string>
     <string-array name="districts">
@@ -21,4 +22,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="open">NavBar</string>
+    <string name="close">NavBar</string>
 </resources>

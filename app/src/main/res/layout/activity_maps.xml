@@ -11,8 +11,23 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4">
+        android:layout_height="match_parent">
+
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drawerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigationView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:fitsSystemWindows="true"
+                app:menu="@menu/activity_navigation_drawer"/>
+
+        </androidx.drawerlayout.widget.DrawerLayout>
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -42,9 +57,8 @@
             android:src="@drawable/ic_logout"
             android:backgroundTint="#F0EEEE"
             app:rippleColor="#039BE5"
-            android:layout_margin="15dp"
-            android:onClick="logOutButtonClick"
-            android:visibility="gone"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="70dp"            android:onClick="logOutButtonClick"
             />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="fill_parent"
@@ -53,55 +67,61 @@
             android:src="@drawable/ic_gps_fixed_black_24dp"
             android:backgroundTint="#F0EEEE"
             app:rippleColor="#039BE5"
-            android:layout_margin="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="70dp"
+
             android:onClick="getCurrentLocation"
           />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E7E7E7"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/uploadLakeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_local_phone_black_24dp"
+                android:onClick="uploadLake"
+                android:text="Upload Lake"
+                android:background="#E7E7E7"
+                android:textSize="9dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/registionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="registrationClick"
+                android:text="Registration"
+                android:background="#E7E7E7"
+
+                android:textSize="9dp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="loginButtonClick"
+                android:text="login"
+                android:background="#E7E7E7"
+
+                android:textSize="9dp" />
+
+
+        </LinearLayout>
     </FrameLayout>
 
 
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:background="#E7E7E7">
-
-
-        <Button
-            android:id="@+id/uploadLakeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Upload Lake"
-            android:visibility="invisible"
-            android:textSize="9dp"
-            android:drawableTop="@drawable/ic_local_phone_black_24dp"
-            android:onClick="uploadLake"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/registionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registration"
-            android:textSize="9dp"
-            android:drawableTop="@drawable/ic_local_phone_black_24dp"
-            android:onClick="registrationClick"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="login"
-            android:textSize="9dp"
-            android:drawableTop="@drawable/ic_local_phone_black_24dp"
-            android:onClick="loginButtonClick"
-            android:layout_weight="1"/>
-
-
-
-
-    </LinearLayout>
 
 
 </LinearLayout>

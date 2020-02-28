@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -17,6 +18,8 @@ import com.koushikdutta.ion.ProgressCallback;
 import com.lalthanpuiachhangte.mapforfish.MapsActivity;
 import com.lalthanpuiachhangte.mapforfish.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import es.dmoral.toasty.Toasty;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -63,7 +66,19 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onCompleted(Exception e, JsonObject result) {
                             Log.e("TAG","RESULT::"+result);
 
-                            startActivity(new Intent(RegistrationActivity.this, MapsActivity.class));
+                            if(result==null){
+                                Toasty.error(getApplicationContext(),"email already taken or password should be more than 8 char",Toasty.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
+                                registerNowButton.setVisibility(View.VISIBLE);
+                            }else{
+                                Log.e("TAG","RESULT::"+result);
+                                startActivity(new Intent(RegistrationActivity.this, MapsActivity.class));
+                                progressBar.setVisibility(View.INVISIBLE);
+                                registerNowButton.setVisibility(View.VISIBLE);
+                            }
+
+
+
                         }
                     });
         }catch (Exception e){}

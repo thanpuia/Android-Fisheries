@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,10 +22,15 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
+
 public class LoginActivity extends AppCompatActivity {
 
     public SharedPreferences sharedPreferences;
     MaterialEditText loginEmail,loginPassword;
+    LinearLayout loginLinearLayout;
+    ProgressBar loginProgressBar;
+
     private String URL="http://fisheries.ap-south-1.elasticbeanstalk.com/api/login";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
+        loginLinearLayout = findViewById(R.id.loginFormLinearLayout);
+        loginProgressBar = findViewById(R.id.simpleProgressBarLogin);
+
     }
 
     public void mLoginButtonClick(View view) {
@@ -44,7 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                 .uploadProgressHandler(new ProgressCallback() {
                     @Override
                     public void onProgress(long downloaded, long total) {
-
+                        loginLinearLayout.setVisibility(View.INVISIBLE);
+                        loginProgressBar.setVisibility(View.VISIBLE);
                     }
                 })
                 .setMultipartParameter("email",mLoginEmail)
@@ -53,25 +64,17 @@ public class LoginActivity extends AppCompatActivity {
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        /*
-                            Login Success
-                        * result{
-                        * "success":"true"
-                        * }
+                        /* Login Success   result{  "success":"true" }
+                            Login Unsuccess  result{   "success":"false"  }  */
+                        loginLinearLayout.setVisibility(View.VISIBLE);
+                        loginProgressBar.setVisibility(View.INVISIBLE);
 
-                        Login Unsuccess
-                        * result{
-                        * "success":"false"
-                        * }
-
-
-                        *
-                        * */
                         Log.e("TAG","result:"+result);
                         JsonElement success = result.get("status");
-
+                        //THIS .GETASBOOLEAN IS VERY IMPPPPPPP
                         if( success.getAsBoolean()){
-
+                            loginLinearLayout.setVisibility(View.VISIBLE);
+                            loginProgressBar.setVisibility(View.INVISIBLE);
                             sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
                             sharedPreferences.edit().putString("login_status","login").apply();
 
@@ -80,6 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("status","good");
                             startActivity(intent);
                             finish();
+                        }else{
+                            loginLinearLayout.setVisibility(View.VISIBLE);
+                            loginProgressBar.setVisibility(View.INVISIBLE);
+                            Toasty.error(getApplicationContext(),"Incorrect Input",Toasty.LENGTH_SHORT).show();
                         }
                     }
                 });

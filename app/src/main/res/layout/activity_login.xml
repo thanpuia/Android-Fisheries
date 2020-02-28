@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +12,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/simpleProgressBarLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            android:foregroundGravity="center"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/loginFormLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="40dp"
@@ -23,57 +39,60 @@
             android:layout_marginTop="30dp"
             android:src="@drawable/fish_fake_logo"
             android:layout_marginBottom="20dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:contentDescription="TODO" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="12dp"
+            android:orientation="vertical"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:orientation="vertical">
+            android:paddingTop="12dp"
+            android:paddingRight="30dp">
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/loginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/loginEmail"
-                app:met_floatingLabelText="Email"
-                app:met_floatingLabel="highlight"
-                android:inputType="textEmailAddress"
                 android:drawableLeft="@drawable/ic_email_icon"
                 android:drawablePadding="6dp"
-                app:met_floatingLabelAlwaysShown="true"/>
+                android:inputType="textEmailAddress"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Email" />
+
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/loginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/loginPassword"
-                android:inputType="textVisiblePassword"
-                app:met_floatingLabelText="Password"
-                app:met_floatingLabel="highlight"
                 android:drawableLeft="@drawable/ic_password_icon"
                 android:drawablePadding="6dp"
-                app:met_floatingLabelAlwaysShown="true"/>
+                android:inputType="textVisiblePassword"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Password" />
+
             <Button
-                android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 android:background="@color/colorPrimary"
+                android:onClick="mLoginButtonClick"
                 android:text="Login"
-                android:textColor="#FFF"
-                android:onClick="mLoginButtonClick"/>
+                android:textColor="#FFF" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
                 android:layout_gravity="center"
-                android:text="Not yet register! Register Now"
-                android:onClick="notYetRegisterClick"/>
+                android:onClick="notYetRegisterClick"
+                android:padding="15dp"
+                android:text="Not yet register! Register Now" />
         </LinearLayout>
 
 
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
