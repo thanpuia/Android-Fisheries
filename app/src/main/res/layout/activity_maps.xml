@@ -69,11 +69,20 @@
             app:rippleColor="#039BE5"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="70dp"
-
             android:onClick="getCurrentLocation"
           />
 
-
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="fill_parent"
+            android:layout_gravity="right|bottom"
+            android:layout_height="wrap_content"
+            android:src="@drawable/common_google_signin_btn_text_dark_normal"
+            android:backgroundTint="#F0EEEE"
+            app:rippleColor="#039BE5"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="170dp"
+            android:onClick="listLakeButtonClick"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

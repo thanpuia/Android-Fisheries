@@ -23,7 +23,6 @@
         <activity android:name=".listLake.ListLakeActivity"></activity>
         <activity android:name=".registration.LoginActivity" />
         <activity android:name=".registration.RegistrationActivity" />
-        <activity android:name=".ListLakeActivity" />
         <activity android:name=".UploadLakeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

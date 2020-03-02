@@ -49,6 +49,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.lalthanpuiachhangte.mapforfish.entity.LakeEntity;
 import com.lalthanpuiachhangte.mapforfish.fragments.ItemListDialogFragment;
+import com.lalthanpuiachhangte.mapforfish.listLake.ListLakeActivity;
 import com.lalthanpuiachhangte.mapforfish.registration.LoginActivity;
 import com.lalthanpuiachhangte.mapforfish.registration.RegistrationActivity;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -188,17 +189,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }).check();
 
-
-        Ion.with(this)
-                .load(mURL)
-                .as(new TypeToken<List<LakeEntity>>(){})
-                .setCallback(new FutureCallback<List<LakeEntity>>() {
-                    @Override
-                    public void onCompleted(Exception e, List<LakeEntity> result) {
-
-                        Log.e("TAG", "AALL liST::"+ result.size());
-                    }
-                });
     }
 
     @Override
@@ -359,4 +349,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }, 2000);
     }
 
+    public void listLakeButtonClick(View view) {
+        startActivity(new Intent(this, ListLakeActivity.class));
+    }
 }
