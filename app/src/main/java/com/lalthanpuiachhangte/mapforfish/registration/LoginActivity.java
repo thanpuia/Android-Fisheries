@@ -31,13 +31,15 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout loginLinearLayout;
     ProgressBar loginProgressBar;
 
-    private String URL="http://fisheries.ap-south-1.elasticbeanstalk.com/api/login";
+    //private String URL="http://fisheries.ap-south-1.elasticbeanstalk.com/api/login";
+    private String URLs="http://10.180.243.32:8000/api/login";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginEmail = findViewById(R.id.loginEmail);
+        loginEmail = findViewById(R.id.loginContact);
         loginPassword = findViewById(R.id.loginPassword);
         loginLinearLayout = findViewById(R.id.loginFormLinearLayout);
         loginProgressBar = findViewById(R.id.simpleProgressBarLogin);
@@ -46,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void mLoginButtonClick(View view) {
 
-        String mLoginEmail = loginEmail.getText().toString();
+        String mLoginContact = loginEmail.getText().toString();
         String mLoginPassword = loginPassword.getText().toString();
 
         Ion.with(getApplicationContext())
-                .load(URL)
+                .load(URLs)
                 .uploadProgressHandler(new ProgressCallback() {
                     @Override
                     public void onProgress(long downloaded, long total) {
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         loginProgressBar.setVisibility(View.VISIBLE);
                     }
                 })
-                .setMultipartParameter("email",mLoginEmail)
+                .setMultipartParameter("contact",mLoginContact)
                 .setMultipartParameter("password",mLoginPassword)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {

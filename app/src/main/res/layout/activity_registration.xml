@@ -46,8 +46,8 @@
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/userEmail"
-                app:met_floatingLabelText="Your Email"
+                android:id="@+id/userPhone"
+                app:met_floatingLabelText="Your Phone"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelAlwaysShown="true"
                 android:drawableLeft="@drawable/ic_email_icon"

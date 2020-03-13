@@ -69,11 +69,20 @@ public class ListLakeActivity extends AppCompatActivity {
 
             convertView = layoutInflater.inflate(R.layout.list_of_lakes,null);
 
-            TextView textView1= convertView.findViewById(R.id.text77);
-            TextView textView2= convertView.findViewById(R.id.text88);
+            TextView lake_name_list= convertView.findViewById(R.id.lake_name_list);
+            TextView lake_address_list= convertView.findViewById(R.id.lake_address_list);
+            TextView lake_desp_list= convertView.findViewById(R.id.lake_desp_list);
+            TextView lake_lat_list= convertView.findViewById(R.id.lake_lat_list);
+            TextView lake_lng_list= convertView.findViewById(R.id.lake_lng_list);
+            //TextView lake_serialNo_list= convertView.findViewById(R.id.lake_serialNo_list);
 
-            textView1.setText(mLakes.get(position).getName());
-            textView2.setText(mLakes.get(position).getAddress());
+            lake_name_list.setText(mLakes.get(position).getName());
+            lake_address_list.setText(mLakes.get(position).getAddress());
+            lake_desp_list.setText(mLakes.get(position).getDescription());
+            lake_lat_list.setText(mLakes.get(position).getLat().toString());
+            lake_lng_list.setText(mLakes.get(position).getLng().toString());
+//            lake_serialNo_list.setText(mLakes.get(position).getId());
+
             return convertView;
         }
     }

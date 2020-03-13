@@ -11,11 +11,37 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayoutConfirmLocation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:layout_margin="20dp"
+        android:paddingTop="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/locationConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getLastKnowLocation"
+            android:text="Check my Location"/>
+
+        <ProgressBar
+            android:id="@+id/locationConfirmProgressBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#B9B9B9"
         android:id="@+id/progressBarLayout"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:gravity="center">
 
         <ProgressBar
@@ -25,95 +51,199 @@
             android:visibility="invisible"
             android:layout_centerHorizontal="true"/>
 
-        </LinearLayout>
-
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutMainForm"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:layout_margin="50dp"
-        android:paddingTop="12dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:orientation="vertical">
+        android:visibility="visible"
+        android:layout_height="match_parent">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lake_name"
-            app:met_floatingLabelText="Lake Name"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            android:drawableLeft="@drawable/ic_user_icon"/>
+            android:layout_height="match_parent">
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lake_description"
-            app:met_floatingLabelText="Lake Description"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            android:drawableLeft="@drawable/ic_description"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:layout_margin="13dp"
+                android:paddingTop="12dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lake_address"
-            app:met_floatingLabelText="Lake Address"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            android:drawableLeft="@drawable/ic_password_icon"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-<!--        <Spinner-->
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextDataName"
+                        app:met_floatingLabelText="Name"
+                        app:met_floatingLabel="highlight"
+                        android:layout_gravity="bottom"
+                        app:met_floatingLabelAlwaysShown="true"/>
 
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/spinner_districrt"/>-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/imageViewDateProfilePicture"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/imageview_border"
+                            android:onClick="profilePictureButtonClick"
+                            android:src="@drawable/ic_user_icon"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:text="Select your lake picture"/>
-            <Button
-                android:id="@+id/selectPhotoButton"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_height="40dp"
-                android:textAllCaps="false"
-                android:text="Browse"
-                android:onClick="selectPhoto"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
 
+                            android:textSize="12dp"
+                            android:text="Click to select profile picture"/>
 
-        </LinearLayout>
+                    </LinearLayout>
 
-
-        <Button
-            android:layout_marginTop="30dp"
-            android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Submit"
-            android:background="@color/colorPrimary"
-            android:textColor="#fff"
-            android:onClick="submitClick"/>
+                </LinearLayout>
 
 
 
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextDataFathersName"
+                    app:met_floatingLabelText="Father's Name"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/selectPhoto"
-            android:contentDescription="TODO" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextDataAddress"
+                    app:met_floatingLabelText="Address"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="District"/>
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner_district"/>
+                </LinearLayout>
+
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextDataEpicNo"
+                    app:met_floatingLabelText="EPIC No/ Aadhaar No"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextDataContact"
+                    app:met_floatingLabelText="Contact"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextDataArea"
+                    app:met_floatingLabelText="Area (Ha.)"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox1"
+                    android:text="My Scheme 1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox2"
+                    android:text="My Scheme 1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox3"
+                    android:text="My Scheme 3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:text="Select your lake picture"/>
+                    <Button
+                        android:id="@+id/selectPhotoButton"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="40dp"
+                        android:textAllCaps="false"
+                        android:text="Browse"
+                        android:onClick="selectPhoto"/>
+                </LinearLayout>
+
+
+                <Button
+                    android:layout_marginTop="30dp"
+                    android:id="@+id/submitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Submit"
+                    android:background="@color/colorPrimary"
+                    android:textColor="#fff"
+                    android:onClick="submitClick"/>
+
+                <Button
+                    android:id="@+id/takePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="takePhotoClick"
+                    android:text="take pic"/>
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:id="@+id/selectPhoto"
+                    android:contentDescription="TODO" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
 
     </LinearLayout>
+
 
 
 

@@ -105,12 +105,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             loginButton.setVisibility(View.INVISIBLE);
             registrationButton.setVisibility(View.INVISIBLE);
             logoutButton.setVisibility(View.VISIBLE);
+
         }else{
             //ALREADY LOG OUT
             uploadLakeButton.setVisibility(View.INVISIBLE);
             loginButton.setVisibility(View.VISIBLE);
             registrationButton.setVisibility(View.VISIBLE);
             logoutButton.setVisibility(View.INVISIBLE);
+
+
+            //TEST
+            //uploadLakeButton.setVisibility(View.VISIBLE);
+
         }
 
 

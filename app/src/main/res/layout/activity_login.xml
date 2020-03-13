@@ -52,7 +52,7 @@
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/loginEmail"
+                android:id="@+id/loginContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_email_icon"
@@ -60,7 +60,7 @@
                 android:inputType="textEmailAddress"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="Email" />
+                app:met_floatingLabelText="Phone" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/loginPassword"
