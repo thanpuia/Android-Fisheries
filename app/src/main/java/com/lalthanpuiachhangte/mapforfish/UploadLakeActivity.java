@@ -23,14 +23,21 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -45,6 +52,9 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 import ir.samanjafari.easycountdowntimer.CountDownInterface;
@@ -54,13 +64,74 @@ import static android.view.View.GONE;
 
 public class UploadLakeActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+
+    /*
+    *START
+     * this is for the scheme list
+    */
+    //String[] numbers = {"000000", "0000000", "000000", "000000"};
+    String[] name = {"NFDB", "RKVY", "NLUP", "Blue Revolution"};
+    ArrayList<String> schemeCheckLists = new ArrayList<>();
+    int j=0;
+    class CustomAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            // return 0;
+            return name.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView= getLayoutInflater().inflate(R.layout.row_scheme,null);
+
+            final CheckBox checkBox_= convertView.findViewById(R.id.rowCheckBox);
+
+            checkBox_.setText(name[position]);
+
+            checkBox_.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked){
+                        schemeCheckLists.add(checkBox_.getText().toString());
+                    }else{
+                        schemeCheckLists.remove(checkBox_.getText().toString());
+                    }
+                }
+            });
+
+
+            return convertView;
+        }
+    }
+
+
+    /*
+    ENDS
+    * this is for the scheme list
+    * */
+
+
+
+
+
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static String real_path_lake;
     private static String real_path_profileImage;
 
     private double lat,lng;
     private String TAG = "TAG";
-    private String URLs="http://10.180.243.32:8000/api/user/update/1";
+    private String URLs="http://10.180.243.15:8000/api/fishponds/uploadpond/1";
     int LOCATION_CONFIRM_NO_CYCLES = 7;
     private SharedPreferences sharedPreferences;
     private ArrayList<String> nameOfSchemes;
@@ -94,6 +165,8 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     private ImageView selectPhoto;
     private ImageView profileImageViewButton;
 
+    private ListView listOfScheme;
+
     GoogleApiClient mGoogleApiClient;
     protected LocationManager locationManager;
 
@@ -114,7 +187,7 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
         locationConfirmButton = findViewById(R.id.locationConfirm);
         takePhotoButton = findViewById(R.id.takePhoto);
 
-        progressBarLayout = findViewById(R.id.progressBarLayout);
+        //progressBarLayout = findViewById(R.id.progressBarLayout);
         linearLayoutConfirmLocation = findViewById(R.id.linearLayoutConfirmLocation);
         linearLayoutMainForm = findViewById(R.id.linearLayoutMainForm);
 
@@ -122,14 +195,13 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
         fathersNameEditText = findViewById(R.id.editTextDataFathersName);
         addressEditText= findViewById(R.id.editTextDataAddress);
         epicOrAadhaarEditText= findViewById(R.id.editTextDataEpicNo);
-        contactEditText     = findViewById(R.id.editTextDataContact);
+        contactEditText = findViewById(R.id.editTextDataContact);
         areaEditText = findViewById(R.id.editTextDataArea);
 
         district = findViewById(R.id.spinner_district);
 
         checkBox = findViewById(R.id.checkbox);
-
-
+        listOfScheme = findViewById(R.id.list_of_scheme);
 
         selectPhoto = findViewById(R.id.selectPhoto);
         profileImageViewButton = findViewById(R.id.imageViewDateProfilePicture);
@@ -145,15 +217,16 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         district.setAdapter(adapter);
 
-
-
-        //  linearLayoutMainForm.addView(checkBoxScheme);
-//        progressBar.setVisibility(GONE);
-//        linearLayoutMainForm.setVisibility(GONE);
-//        linearLayoutConfirmLocation.setVisibility(View.VISIBLE);
-
+        //LIST ADAPTER FOR LIST-OF-SCHEME
+        CustomAdapter customAdapter = new CustomAdapter();
+        listOfScheme.setAdapter(customAdapter);
+        listOfScheme.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e("TAG","LIST TIST: "+i);
+            }
+        });
     }
-
 
     public void selectPhoto(View view) {
 
@@ -215,8 +288,10 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     }
 
     public void submitClick(View view) {
-
-//        if(lat==0.0 ||lng==0.0){
+        submitButton.setVisibility(GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        Log.e("TAG",schemeCheckLists+"{}{}");
+        //        if(lat==0.0 ||lng==0.0){
         if(false){
 
             Toast.makeText(this,"PICTURE HAS NO COORDINATES!",Toast.LENGTH_LONG).show ();
@@ -239,25 +314,24 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
                // json.addProperty("profileImage", new File("sdcard"+real_path_profileImage.substring(19)));
                // json.addProperty("nme", "WHAT THE FUDGE");
 
-
                 //String sp = district.getSelectedItem().toString();
                 Ion.with(getApplicationContext())
-                        .load("PUT",URLs)
+                        .load("POST",URLs)
                         .uploadProgressHandler(new ProgressCallback() {
                             @Override
                             public void onProgress(long downloaded, long total) {
-                                progressBar.setVisibility(View.VISIBLE);
-                                progressBarLayout.setVisibility(View.VISIBLE);
-
-                                //lakeName.setVisibility(View.INVISIBLE);
-                              //  district.setVisibility(View.INVISIBLE);
-                                selectPhotoButton.setVisibility(View.INVISIBLE);
-                                submitButton.setVisibility(View.INVISIBLE);
+//                                progressBar.setVisibility(View.VISIBLE);
+//                                progressBarLayout.setVisibility(View.VISIBLE);
+//
+//                                //lakeName.setVisibility(View.INVISIBLE);
+//                              //  district.setVisibility(View.INVISIBLE);
+//                                selectPhotoButton.setVisibility(View.INVISIBLE);
+//                                submitButton.setVisibility(View.INVISIBLE);
                             }
                         })
-                        .setHeader("Accept","application/json")
+                       // .setHeader("Accept","application/json")
                         .setHeader("Authorization","Bearer "+mToken)
-                        .setHeader("Content-Type","application/x-www-form-urlencoded")
+                        .setHeader("Content Type","multipart/form-data")
                         /*.setMultipartParameter("name", mName)
                         .setMultipartParameter("name", mName)
                         .setMultipartParameter("name", mName)
@@ -270,17 +344,71 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
 //                      .setMultipartFile("image", "application/image", new File("sdcard/DCIM/Camera/IMG_20200217_123440.jpg"))//IMAGE TESTINGINGINIGNIGNIGNIGIGN
                         .setMultipartFile("image", "application/image", new File("sdcard"+real_path_lake.substring(19)))//IMAGE path hi storage/something in a awm vang in ka siam chop, sdcard angkhian
 */
+                        .setMultipartParameter("_method", "PUT")
 
-
+                        .setMultipartFile("pondImages[]","multipart/form-data",new File("sdcard"+real_path_lake.substring(19)))
                         //json ang nilo in MULTIPART ANGIN HANDLE MAI RAWH SE SERVER AH. A HMA A DIK SA ANG KHAN. JSON BODY LEH MULTIPART A AWM KOP THEI SI LO
-                        .setMultipartFile("",new File("sdcard"+real_path_profileImage.substring(19)))
-                        .setMultipartParameter("district",mDistrict)
+                       // .setMultipartParameter("district",mDistrict)
                       //  .setJsonObjectBody(json)
 
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {           ///sdcard/DCIM/Camera/IMG_20200217_123440.jpg
+                                submitButton.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(GONE);
+                                    Log.e(TAG,"result: "+result);
+//                                Log.e(TAG,"path:" +"sdcard"+real_path.substring(19));
+
+                                Toasty.success(getApplicationContext(),"Upload Sucess!!",Toasty.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                                finish();
+
+                            }
+                        });
+
+                Ion.with(getApplicationContext())
+                        .load("POST",URLs)
+                        .uploadProgressHandler(new ProgressCallback() {
+                            @Override
+                            public void onProgress(long downloaded, long total) {
+//                                progressBar.setVisibility(View.VISIBLE);
+//                                progressBarLayout.setVisibility(View.VISIBLE);
+//
+//                                //lakeName.setVisibility(View.INVISIBLE);
+//                              //  district.setVisibility(View.INVISIBLE);
+//                                selectPhotoButton.setVisibility(View.INVISIBLE);
+//                                submitButton.setVisibility(View.INVISIBLE);
+                            }
+                        })
+                        // .setHeader("Accept","application/json")
+                        .setHeader("Authorization","Bearer "+mToken)
+                        .setHeader("Content Type","multipart/form-data")
+                        /*.setMultipartParameter("name", mName)
+                        .setMultipartParameter("name", mName)
+                        .setMultipartParameter("name", mName)
+                        .setMultipartParameter("name", mName)
+                        .setMultipartParameter("name", mName)
+
+                        .setMultipartParameter("lat", String.valueOf(lat))
+                        .setMultipartParameter("lng", String.valueOf(lng))
+                      //  .setMultipartParameter("district", sp)
+//                      .setMultipartFile("image", "application/image", new File("sdcard/DCIM/Camera/IMG_20200217_123440.jpg"))//IMAGE TESTINGINGINIGNIGNIGNIGIGN
+                        .setMultipartFile("image", "application/image", new File("sdcard"+real_path_lake.substring(19)))//IMAGE path hi storage/something in a awm vang in ka siam chop, sdcard angkhian
+*/
+                        .setMultipartParameter("_method", "PUT")
+
+                        .setMultipartFile("pondImages[]","multipart/form-data",new File("sdcard"+real_path_lake.substring(19)))
+                        //json ang nilo in MULTIPART ANGIN HANDLE MAI RAWH SE SERVER AH. A HMA A DIK SA ANG KHAN. JSON BODY LEH MULTIPART A AWM KOP THEI SI LO
+                        // .setMultipartParameter("district",mDistrict)
+                        //  .setJsonObjectBody(json)
+
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {           ///sdcard/DCIM/Camera/IMG_20200217_123440.jpg
+                                submitButton.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(GONE);
                                 Log.e(TAG,"result: "+result);
 //                                Log.e(TAG,"path:" +"sdcard"+real_path.substring(19));
 
