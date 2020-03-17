@@ -52,6 +52,7 @@
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:text="1234444"
                 android:id="@+id/loginContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
                 app:met_floatingLabelText="Phone" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:text="123456"
                 android:id="@+id/loginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +92,6 @@
                 android:padding="15dp"
                 android:text="Not yet register! Register Now" />
         </LinearLayout>
-
 
     </LinearLayout>
 

@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializer;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 import com.lalthanpuiachhangte.mapforfish.MapsActivity;
 import com.lalthanpuiachhangte.mapforfish.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.json.JSONObject;
 
 import es.dmoral.toasty.Toasty;
 
@@ -31,8 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
 
-//    private String URL="http://fisheries.ap-south-1.elasticbeanstalk.com/api/register";
-    private String URLs="http://10.180.243.32:8000/api/register";
+    private String URLs= String.valueOf(R.string.IP_ADDRESS)+"api/register";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registerNowClick(View view) {
+        Toasty.info(this,"REGISTER click",Toasty.LENGTH_SHORT).show();
         try{
 
             String mName = name.getText().toString();
@@ -56,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
             String contact = phone.getText().toString();
 
             Ion.with(getApplicationContext())
-                    .load(URLs)
+                    .load("http://10.180.243.6:8000/api/register")
                     .uploadProgressHandler(new ProgressCallback() {
                         @Override
                         public void onProgress(long downloaded, long total) {
@@ -74,24 +78,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             Log.e("TAG","RESULT::"+result);
                             if(result!=null){
+                                JsonElement statusAsJson = result.get("success");
+                                JsonElement tokenAsJson = result.get("token");
 
-                              JsonElement statusAsJson = result.get("status");
-                              JsonElement tokenAsJson = result.get("token");
+                                Log.e("TAG","RESULT::"+result.get("success"));
+                                Log.e("TAG","TOKEN::"+result.get("token"));
 
-                              Log.e("TAG","RESULT::"+statusAsJson.getAsBoolean());
-                              Log.e("TAG","TOKEN::"+tokenAsJson.getAsString());
+                                sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
+                                sharedPreferences.edit().putString("mToken",result.get("token").toString()).apply();
 
-                              sharedPreferences = getApplication().getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
-                              sharedPreferences.edit().putString("token",tokenAsJson.getAsString()).apply();
+                                if(result.get("success").getAsBoolean()==true){
+                                Toasty.success(getApplicationContext(),"Register Successfully!",Toasty.LENGTH_SHORT).show();
 
-                              if(statusAsJson.getAsBoolean()){
-                                  Toasty.success(getApplicationContext(),"Register Successfully!",Toasty.LENGTH_SHORT).show();
-
-                                  Log.e("TAG","RESULT::"+result);
-                                  startActivity(new Intent(RegistrationActivity.this, MapsActivity.class));
-                                  progressBar.setVisibility(View.INVISIBLE);
-                                  registerNowButton.setVisibility(View.VISIBLE);
-                              }else{
+                                Log.e("TAG","RESULT::"+result);
+                                startActivity(new Intent(RegistrationActivity.this, MapsActivity.class));
+                                progressBar.setVisibility(View.INVISIBLE);
+                                registerNowButton.setVisibility(View.VISIBLE);
+                            }else{
                                   Toasty.error(getApplicationContext(),"Email already taken or password should be more than 8 char",Toasty.LENGTH_SHORT).show();
                                   progressBar.setVisibility(View.INVISIBLE);
                                   registerNowButton.setVisibility(View.VISIBLE);

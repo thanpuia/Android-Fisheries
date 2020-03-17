@@ -60,7 +60,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,ItemListDialogFragment.Listener,LocationListener {
 
-    private String mURL = String.valueOf(R.string.URL_PATH)+"api/getAll";
+    private String mURL = String.valueOf(R.string.IP_ADDRESS)+"api/getAll";
 
     private GoogleMap mMap;
     private static List<LakeEntity> mLakes;
@@ -98,8 +98,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         sharedPreferences = this.getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
 
         //CHECK THE LOGIN STATUS
-        String login_status = sharedPreferences.getString("login_status","");
-        if("login".equals(login_status)){
+        Boolean login_status = sharedPreferences.getBoolean("login_status",false);
+        if(login_status){
             //ALREADY LOG IN
             uploadLakeButton.setVisibility(View.VISIBLE);
             loginButton.setVisibility(View.INVISIBLE);
@@ -201,7 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Ion.with(this)
+      /*  Ion.with(this)
                 .load("http://fisheries.ap-south-1.elasticbeanstalk.com/api/getAll")
                 .as(new TypeToken<List<LakeEntity>>(){})
                 .setCallback(new FutureCallback<List<LakeEntity>>() {
@@ -230,7 +230,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //Toast.makeText(getApplicationContext(),"tot!",Toast.LENGTH_SHORT).show();
                     return false;
                 }
-            });
+            });*/
     }
 
     @Override
@@ -325,7 +325,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void logOutButtonClick(View view) {
-        sharedPreferences.edit().putString("login_status","logout").apply();
+        sharedPreferences.edit().putBoolean("login_status",false).apply();
         uploadLakeButton.setVisibility(View.INVISIBLE);
         loginButton.setVisibility(View.VISIBLE);
         registrationButton.setVisibility(View.VISIBLE);

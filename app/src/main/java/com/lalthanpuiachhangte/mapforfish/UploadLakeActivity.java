@@ -69,7 +69,6 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     *START
      * this is for the scheme list
     */
-    //String[] numbers = {"000000", "0000000", "000000", "000000"};
     String[] name = {"NFDB", "RKVY", "NLUP", "Blue Revolution"};
     ArrayList<String> schemeCheckLists = new ArrayList<>();
     int j=0;
@@ -123,17 +122,18 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
 
 
 
-
-
+    private SharedPreferences sharedPreferences;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private static String real_path_lake;
     private static String real_path_profileImage;
 
     private double lat,lng;
     private String TAG = "TAG";
-    private String URLs="http://10.180.243.15:8000/api/fishponds/uploadpond/1";
+    private String URL1="http://10.180.243.6:8000/api/fishponds/create/";
+
+    private String URL2="";
+
     int LOCATION_CONFIRM_NO_CYCLES = 7;
-    private SharedPreferences sharedPreferences;
     private ArrayList<String> nameOfSchemes;
 
     private LatLng formPicture;
@@ -157,8 +157,9 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     private MaterialEditText epicOrAadhaarEditText;
     private MaterialEditText contactEditText;
     private MaterialEditText areaEditText;
+    private MaterialEditText tehsilEditText;
 
-    private Spinner district;
+    private Spinner districtSpinner;
 
     private CheckBox checkBox;
 
@@ -170,12 +171,23 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     GoogleApiClient mGoogleApiClient;
     protected LocationManager locationManager;
 
+    String mToken;
+    String mContact;
+    String mName;
+    int mId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_lake);
 
         sharedPreferences = this.getSharedPreferences("com.example.root.sharedpreferences", Context.MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("mToken","");
+        mContact = sharedPreferences.getString("mContact","");
+        mName = sharedPreferences.getString("mName","");
+        mId = sharedPreferences.getInt("mId",mId);
+
 
         Log.e("TAG","My Token: "+sharedPreferences.getString("token",""));
         //district = findViewById(R.id.spinner_districrt);
@@ -197,8 +209,8 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
         epicOrAadhaarEditText= findViewById(R.id.editTextDataEpicNo);
         contactEditText = findViewById(R.id.editTextDataContact);
         areaEditText = findViewById(R.id.editTextDataArea);
-
-        district = findViewById(R.id.spinner_district);
+        tehsilEditText = findViewById(R.id.editTextTehsil);
+        districtSpinner = findViewById(R.id.spinner_district);
 
         checkBox = findViewById(R.id.checkbox);
         listOfScheme = findViewById(R.id.list_of_scheme);
@@ -215,7 +227,7 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.districts,android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        district.setAdapter(adapter);
+        districtSpinner.setAdapter(adapter);
 
         //LIST ADAPTER FOR LIST-OF-SCHEME
         CustomAdapter customAdapter = new CustomAdapter();
@@ -235,6 +247,14 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"),1);
     }
+
+    public void profilePictureButtonClick(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -290,141 +310,9 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     public void submitClick(View view) {
         submitButton.setVisibility(GONE);
         progressBar.setVisibility(View.VISIBLE);
+        apiFirst();
+        apiSecond();
         Log.e("TAG",schemeCheckLists+"{}{}");
-        //        if(lat==0.0 ||lng==0.0){
-        if(false){
-
-            Toast.makeText(this,"PICTURE HAS NO COORDINATES!",Toast.LENGTH_LONG).show ();
-
-        }else{
-            try{
-               // String mName = nameEditText.getText().toString();
-                /* String mfathersName = fathersNameEditText.getText().toString();
-                String mAddress = addressEditText.getText().toString();
-                String mEpicOrAadhar = epicOrAadhaarEditText.getText().toString();
-                String mContact = contactEditText.getText().toString();
-                String mArea = areaEditText.getText().toString();*/
-
-                String mDistrict = district.getSelectedItem().toString();
-                Log.e("TAG","DISTRICT: "+mDistrict);
-                String mToken = sharedPreferences.getString("token","");
-
-                JsonObject json = new JsonObject();
-                json.addProperty("district", mDistrict);
-               // json.addProperty("profileImage", new File("sdcard"+real_path_profileImage.substring(19)));
-               // json.addProperty("nme", "WHAT THE FUDGE");
-
-                //String sp = district.getSelectedItem().toString();
-                Ion.with(getApplicationContext())
-                        .load("POST",URLs)
-                        .uploadProgressHandler(new ProgressCallback() {
-                            @Override
-                            public void onProgress(long downloaded, long total) {
-//                                progressBar.setVisibility(View.VISIBLE);
-//                                progressBarLayout.setVisibility(View.VISIBLE);
-//
-//                                //lakeName.setVisibility(View.INVISIBLE);
-//                              //  district.setVisibility(View.INVISIBLE);
-//                                selectPhotoButton.setVisibility(View.INVISIBLE);
-//                                submitButton.setVisibility(View.INVISIBLE);
-                            }
-                        })
-                       // .setHeader("Accept","application/json")
-                        .setHeader("Authorization","Bearer "+mToken)
-                        .setHeader("Content Type","multipart/form-data")
-                        /*.setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-
-                        .setMultipartParameter("lat", String.valueOf(lat))
-                        .setMultipartParameter("lng", String.valueOf(lng))
-                      //  .setMultipartParameter("district", sp)
-//                      .setMultipartFile("image", "application/image", new File("sdcard/DCIM/Camera/IMG_20200217_123440.jpg"))//IMAGE TESTINGINGINIGNIGNIGNIGIGN
-                        .setMultipartFile("image", "application/image", new File("sdcard"+real_path_lake.substring(19)))//IMAGE path hi storage/something in a awm vang in ka siam chop, sdcard angkhian
-*/
-                        .setMultipartParameter("_method", "PUT")
-
-                        .setMultipartFile("pondImages[]","multipart/form-data",new File("sdcard"+real_path_lake.substring(19)))
-                        //json ang nilo in MULTIPART ANGIN HANDLE MAI RAWH SE SERVER AH. A HMA A DIK SA ANG KHAN. JSON BODY LEH MULTIPART A AWM KOP THEI SI LO
-                       // .setMultipartParameter("district",mDistrict)
-                      //  .setJsonObjectBody(json)
-
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonObject result) {           ///sdcard/DCIM/Camera/IMG_20200217_123440.jpg
-                                submitButton.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(GONE);
-                                    Log.e(TAG,"result: "+result);
-//                                Log.e(TAG,"path:" +"sdcard"+real_path.substring(19));
-
-                                Toasty.success(getApplicationContext(),"Upload Sucess!!",Toasty.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-                                finish();
-
-                            }
-                        });
-
-                Ion.with(getApplicationContext())
-                        .load("POST",URLs)
-                        .uploadProgressHandler(new ProgressCallback() {
-                            @Override
-                            public void onProgress(long downloaded, long total) {
-//                                progressBar.setVisibility(View.VISIBLE);
-//                                progressBarLayout.setVisibility(View.VISIBLE);
-//
-//                                //lakeName.setVisibility(View.INVISIBLE);
-//                              //  district.setVisibility(View.INVISIBLE);
-//                                selectPhotoButton.setVisibility(View.INVISIBLE);
-//                                submitButton.setVisibility(View.INVISIBLE);
-                            }
-                        })
-                        // .setHeader("Accept","application/json")
-                        .setHeader("Authorization","Bearer "+mToken)
-                        .setHeader("Content Type","multipart/form-data")
-                        /*.setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-                        .setMultipartParameter("name", mName)
-
-                        .setMultipartParameter("lat", String.valueOf(lat))
-                        .setMultipartParameter("lng", String.valueOf(lng))
-                      //  .setMultipartParameter("district", sp)
-//                      .setMultipartFile("image", "application/image", new File("sdcard/DCIM/Camera/IMG_20200217_123440.jpg"))//IMAGE TESTINGINGINIGNIGNIGNIGIGN
-                        .setMultipartFile("image", "application/image", new File("sdcard"+real_path_lake.substring(19)))//IMAGE path hi storage/something in a awm vang in ka siam chop, sdcard angkhian
-*/
-                        .setMultipartParameter("_method", "PUT")
-
-                        .setMultipartFile("pondImages[]","multipart/form-data",new File("sdcard"+real_path_lake.substring(19)))
-                        //json ang nilo in MULTIPART ANGIN HANDLE MAI RAWH SE SERVER AH. A HMA A DIK SA ANG KHAN. JSON BODY LEH MULTIPART A AWM KOP THEI SI LO
-                        // .setMultipartParameter("district",mDistrict)
-                        //  .setJsonObjectBody(json)
-
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonObject result) {           ///sdcard/DCIM/Camera/IMG_20200217_123440.jpg
-                                submitButton.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(GONE);
-                                Log.e(TAG,"result: "+result);
-//                                Log.e(TAG,"path:" +"sdcard"+real_path.substring(19));
-
-                                Toasty.success(getApplicationContext(),"Upload Sucess!!",Toasty.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
-                                finish();
-
-                            }
-                        });
-            }catch (Exception e){
-                Toast.makeText(this,"Some error in data:"+e,Toast.LENGTH_LONG).show ();
-
-            }
-        }
-
-
     }
 
     /* Get the real path from the URI */
@@ -493,9 +381,6 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
 
             }
         });
-
-
-
     }
 
     @Override
@@ -516,14 +401,101 @@ public class UploadLakeActivity extends AppCompatActivity implements GoogleApiCl
     public void takePhotoClick(View view) {
     }
 
-    public void profilePictureButtonClick(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
+    public void apiFirst(){
 
+        String fname = fathersNameEditText.getText().toString();
+        String address= addressEditText.getText().toString();
+        String district= districtSpinner.getSelectedItem().toString();;
+        String location_of_pond= "TESTING";//HEI HI ENG KAN CIAG LO
+        String tehsil = tehsilEditText.getText().toString();
+        String area= areaEditText.getText().toString();
+        String epic_no= epicOrAadhaarEditText.getText().toString();
+        String name_of_scheme= String.join(",",schemeCheckLists);
+        String lat="TESTIGN";
+        String lng="TESTING";
 
+        try{
+            Ion.with(getApplicationContext())
+                    .load("POST",URL1)
+                    .setHeader("Authorization","Bearer "+mToken)
+
+                    .setMultipartParameter("fname",fname)
+                    .setMultipartParameter("address",address)
+                    .setMultipartParameter("district",district)
+                    .setMultipartParameter("location_of_pond",location_of_pond)
+                    .setMultipartParameter("tehsil",tehsil)
+                    .setMultipartParameter("area",area)
+                    .setMultipartParameter("epic_no",epic_no)
+                    .setMultipartParameter("name_of_scheme",name_of_scheme)
+                    .setMultipartParameter("lat",lat)
+                    .setMultipartParameter("lng",lng)
+
+                    .setMultipartFile("image","multipart/form-data",new File(real_path_profileImage))
+
+                    .asJsonObject()
+                    .setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            Log.e("TAG","FILE "+real_path_profileImage);
+
+                            Log.e("TAG","URL 1 URL 1 URL 1: "+result);
+                        }
+                    });
+        }catch (Exception e){
+            Log.e("TAG","ERROR IN URL1");
+
+        }
     }
 
+    public void apiSecond(){
+
+        // if(lat==0.0 ||lng==0.0){
+        if(false){
+            Toast.makeText(this,"PICTURE HAS NO COORDINATES!",Toast.LENGTH_LONG).show ();
+        }else{
+            try{
+                Ion.with(getApplicationContext())
+                        .load("PUT","http://10.180.243.6:8000/api/fishponds/uploadpond/"+mId)
+                        .uploadProgressHandler(new ProgressCallback() {
+                            @Override
+                            public void onProgress(long downloaded, long total) {
+//                                progressBar.setVisibility(View.VISIBLE);
+//                                progressBarLayout.setVisibility(View.VISIBLE);
+//
+//                                //lakeName.setVisibility(View.INVISIBLE);
+//                              //  district.setVisibility(View.INVISIBLE);
+//                                selectPhotoButton.setVisibility(View.INVISIBLE);
+//                                submitButton.setVisibility(View.INVISIBLE);
+                            }
+                        })
+                        .setHeader("Authorization","Bearer "+mToken)
+                        .setHeader("Content-Type","multipart/form-data")
+
+                        .setMultipartParameter("_method", "PUT")
+                        .setMultipartFile("pondImages[]","multipart/form-data",new File(real_path_lake))
+                        //json ang nilo in MULTIPART ANGIN HANDLE MAI RAWH SE SERVER AH. A HMA A DIK SA ANG KHAN. JSON BODY LEH MULTIPART A AWM KOP THEI SI LO
+
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {           ///sdcard/DCIM/Camera/IMG_20200217_123440.jpg
+                                submitButton.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(GONE);
+                                Log.e(TAG,"result: "+result);
+
+                                Toasty.success(getApplicationContext(),"Upload Success!!",Toasty.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),MapsActivity.class));
+                                finish();
+                            }
+                        });
+
+
+            }catch (Exception e){
+                Toast.makeText(this,"Some error in data:"+e,Toast.LENGTH_LONG).show ();
+
+            }
+        }
+
+    }
 }
 

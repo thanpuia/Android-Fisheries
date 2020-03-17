@@ -70,6 +70,7 @@
                         app:met_floatingLabelText="Name"
                         app:met_floatingLabel="highlight"
                         android:layout_gravity="bottom"
+                        android:text="not needed! already "
                         app:met_floatingLabelAlwaysShown="true"/>
 
                     <LinearLayout
@@ -128,7 +129,13 @@
                         android:id="@+id/spinner_district"/>
                 </LinearLayout>
 
-
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextTehsil"
+                    app:met_floatingLabelText="Tehsil"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"/>
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:layout_width="match_parent"
@@ -154,9 +161,13 @@
                     android:id="@+id/editTextDataArea"
                     app:met_floatingLabelText="Area (Ha.)"
                     app:met_floatingLabel="highlight"
+                    android:inputType="number"
                     app:met_floatingLabelAlwaysShown="true"/>
 
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scheme:"/>
                 <ListView
                     android:id="@+id/list_of_scheme"
                     android:layout_width="wrap_content"
